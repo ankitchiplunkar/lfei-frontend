@@ -4,7 +4,6 @@ import { Page } from './components/base/base'
 import { TopBar } from './components/TopBar'
 import { GlobalStyle } from './global/GlobalStyle'
 import { Balance } from './pages/Balance'
-import { Transactions } from './pages/Transactions'
 
 export function App() {
   return (
@@ -14,7 +13,6 @@ export function App() {
         <TopBar />
         <Switch>
           <Route exact path="/balance" component={Balance} />
-          <Route exact path="/transactions" component={Transactions} />
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>

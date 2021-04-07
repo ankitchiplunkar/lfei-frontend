@@ -3,6 +3,7 @@ import { useEtherBalance, useEthers } from '@usedapp/core'
 import styled from 'styled-components'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Button } from '../components/base/Button'
+import { DepositEth, WithdrawEth } from '../components/Notifications/Forms'
 import { TokensList } from '../components/TokensList/TokensList'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
@@ -11,7 +12,7 @@ import { Title } from '../typography/Title'
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
 export function Balance() {
-  const { activateBrowserWallet, deactivate, account } = useEthers()
+  const { activateBrowserWallet, deactivate, account, library } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)
 
@@ -48,6 +49,11 @@ export function Balance() {
           <TokensContentBlock>
             <TokensList />
           </TokensContentBlock>
+          <TableGrid>
+            {account && library && <DepositEth account={account} library={library} />}
+            {account && library && <WithdrawEth account={account} library={library} />}
+            {account && library && <WithdrawEth account={account} library={library} />}
+          </TableGrid>
         </Section>
       </Container>
     </MainContent>
@@ -56,4 +62,10 @@ export function Balance() {
 
 const TokensContentBlock = styled(ContentBlock)`
   padding: 16px 32px;
+`
+
+const TableGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
 `

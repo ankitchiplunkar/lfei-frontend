@@ -9,19 +9,15 @@ export function TopBar() {
       <HeaderContainer>
         <HeaderNav>
           <ToMain href="/">
-            <span>useDapp</span>
+            <span>LFei</span>
             <ToMainBottom>
-              Ethereum <Handshaking>🤝</Handshaking> React
+              Fei Holders <Handshaking>🤝</Handshaking> Arbitrageurs
             </ToMainBottom>
           </ToMain>
           <HeaderNavLinks>
             <HeaderLink activeClassName="active-page" to="/balance">
               {' '}
-              Balance{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/transactions">
-              {' '}
-              Transactions{' '}
+              Dapp{' '}
             </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>
