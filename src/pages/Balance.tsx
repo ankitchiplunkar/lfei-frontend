@@ -53,10 +53,12 @@ export function Balance() {
               </ContentRow>
             )}
           </ContentBlock>
+
           <SectionRow>
-            <Label>Choose pool</Label>
-            <Slider></Slider>
+            <Title>Actions</Title>
           </SectionRow>
+          <Slider></Slider>
+
 
           <TableGrid>
             {account && library && <DepositEth account={account} library={library} />}
