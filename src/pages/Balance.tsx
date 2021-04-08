@@ -1,6 +1,7 @@
 import { formatEther } from '@ethersproject/units'
 import { useEtherBalance, useEthers, useTokenBalance } from '@usedapp/core'
 import styled from 'styled-components'
+import { Slider } from '../components/base/Slider'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Button } from '../components/base/Button'
 import { DepositEth, WithdrawEth } from '../components/Notifications/Forms'
@@ -16,6 +17,7 @@ export function Balance() {
   const feiBalance = useTokenBalance(feiAddress, account)
   const usdcBalance = useTokenBalance(usdcAddress, account)
   console.log(feiBalance, usdcBalance)
+  let value;
 
   return (
     <MainContent>
@@ -45,12 +47,17 @@ export function Balance() {
                 <Label>Fei balance:</Label> <TextInline>{formatEther(feiBalance)}</TextInline> <Label>Fei</Label>
               </ContentRow>
             )}
-            {feiBalance && (
+            {usdcBalance && (
               <ContentRow>
-                <Label>USDC balance:</Label> <TextInline>{formatEther(feiBalance)}</TextInline> <Label>USDC</Label>
+                <Label>USDC balance:</Label> <TextInline>{formatEther(usdcBalance)}</TextInline> <Label>USDC</Label>
               </ContentRow>
             )}
           </ContentBlock>
+          <SectionRow>
+            <Label>Choose pool</Label>
+            <Slider></Slider>
+          </SectionRow>
+
           <TableGrid>
             {account && library && <DepositEth account={account} library={library} />}
             {account && library && <WithdrawEth account={account} library={library} />}
