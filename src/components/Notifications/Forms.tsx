@@ -2,89 +2,108 @@ import type { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import type { Web3Provider } from '@ethersproject/providers'
 import { formatEther } from '@ethersproject/units'
-import { useContractCall, useContractFunction, useEtherBalance } from '@usedapp/core'
+import { useContractCall, useContractFunction, useTokenAllowance } from '@usedapp/core'
 import { utils } from 'ethers'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
-import { ContentBlock, ContentRow } from '../base/base'
+import { SectionRow, ContentBlock, ContentRow } from '../base/base'
 import { Button } from '../base/Button'
-import WethAbi from '../../abi/Weth10.json'
+import LFeiPool from '../../abi/LFei.json'
+import IERC20 from '../../abi/IERC20.json'
+import { feiAddress, usdcAddress } from '../Constants'
+import { useTokenBalance } from '@usedapp/core'
 
-const wethInterface = new utils.Interface(WethAbi)
+const feiInterface = new utils.Interface(IERC20)
+const lFeiInterface = new utils.Interface(LFeiPool)
 
-interface TransactionFormProps {
-  balance: BigNumber | undefined
-  send: (value: BigNumber) => void
-  title: string
-  ticker: string
-}
-
-const TransactionForm = ({ balance, send, title, ticker }: TransactionFormProps) => {
-  const [value, setValue] = useState('0')
-  return (
-    <ContentBlock>
-      <CellTitle>{title}</CellTitle>
-      {balance && (
-        <ContentRow>
-          Your {ticker} balance: {formatEther(balance)}
-        </ContentRow>
-      )}
-      <ContentRow>
-        <label>How much?</label>
-        <Input type="number" step="0.01" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
-      </ContentRow>
-      <ContentRow>
-        <SmallButton
-          onClick={() => {
-            send(utils.parseEther(value))
-            setValue('0')
-          }}
-        >
-          Send
-        </SmallButton>
-      </ContentRow>
-    </ContentBlock>
-  )
-}
-
-interface DepositEthProps {
+interface InteractFeiProps {
+  poolAddress: string
   account: string
   library: Web3Provider
 }
 
-export const DepositEth = ({ account, library }: DepositEthProps) => {
-  const etherBalance = useEtherBalance(account)
-  const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
-  const { send } = useContractFunction(contract, 'deposit')
 
+export const ApproveFei = ({ poolAddress, account, library }: InteractFeiProps) => {
+  const contract = new Contract(feiAddress, feiInterface, library.getSigner())
+  const { send } = useContractFunction(contract, 'approve')
+  const [value, setValue] = useState('0')
   return (
-    <TransactionForm
-      balance={etherBalance}
-      send={(value: BigNumber) => send({ value })}
-      title="Deposit ether"
-      ticker="ETH"
-    />
+    <SectionRow>
+      <label>Approve Fei (approve the amount you want to deposit)</label>
+      <Input type="number" step="1" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
+      <SmallButton
+        onClick={(e) => {
+          send(poolAddress, utils.parseEther(value))
+          setValue('0')
+        }}
+      >
+        Approve
+        </SmallButton>
+    </SectionRow>
   )
 }
 
-export const WithdrawEth = ({ account, library }: DepositEthProps) => {
-  const wethBalance = useContractCall({
-    abi: wethInterface,
-    address: '0xA243FEB70BaCF6cD77431269e68135cf470051b4',
-    method: 'balanceOf',
-    args: [account],
-  })
-  const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
-  const { send } = useContractFunction(contract, 'withdraw')
 
+export const DepositFei = ({ poolAddress, account, library }: InteractFeiProps) => {
+  const contract = new Contract(poolAddress, lFeiInterface, library.getSigner())
+  const { send } = useContractFunction(contract, 'depositFei')
+  const [value, setValue] = useState('0')
+  const tokenAllowance = useTokenAllowance(feiAddress, account, poolAddress)
   return (
-    <TransactionForm
-      balance={wethBalance?.[0]}
-      send={(value: BigNumber) => send(value)}
-      title="Withdraw ether"
-      ticker="WETH"
-    />
+    <SectionRow>
+      {tokenAllowance && <label>Deposit Fei in Pool (can deposit {formatEther(tokenAllowance)})</label>}
+      <Input type="number" step="1" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
+      <SmallButton
+        onClick={(e) => {
+          send(utils.parseEther(value))
+          setValue('0')
+        }}
+      >
+        Deposit
+        </SmallButton>
+    </SectionRow>
+  )
+}
+
+export const WithdrawFei = ({ poolAddress, account, library }: InteractFeiProps) => {
+  const contract = new Contract(poolAddress, lFeiInterface, library.getSigner())
+  const { send } = useContractFunction(contract, 'withdrawFei')
+  const [value, setValue] = useState('0')
+  const tokenBalance = useTokenBalance(poolAddress, account)
+  return (
+    <SectionRow>
+      {tokenBalance && <label>Withdraw Fei from Pool (can withdraw {formatEther(tokenBalance)})</label>}
+      <Input type="number" step="1" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
+      <SmallButton
+        onClick={(e) => {
+          send(utils.parseEther(value))
+          setValue('0')
+        }}
+      >
+        Withdraw
+        </SmallButton>
+    </SectionRow>
+  )
+}
+
+export const WithdrawUSDC = ({ poolAddress, account, library }: InteractFeiProps) => {
+  const contract = new Contract(poolAddress, lFeiInterface, library.getSigner())
+  const { send } = useContractFunction(contract, 'withdrawUSDC')
+  const [value, setValue] = useState('0')
+  return (
+    <SectionRow>
+      <label>Withdraw USDC from Pool</label>
+      <Input type="number" step="1" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
+      <SmallButton
+        onClick={(e) => {
+          send(utils.parseEther(value))
+          setValue('0')
+        }}
+      >
+        Withdraw
+        </SmallButton>
+    </SectionRow>
   )
 }
 
