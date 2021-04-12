@@ -1,5 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { Page } from './components/base/base'
 import { TopBar } from './components/TopBar'
 import { GlobalStyle } from './global/GlobalStyle'
@@ -9,13 +9,13 @@ export function App() {
   return (
     <Page>
       <GlobalStyle />
-      <BrowserRouter>
+      <HashRouter>
         <TopBar />
         <Switch>
           <Route exact path="/lfei" component={Balance} />
           <Redirect exact from="/" to="/lfei" />
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     </Page>
   )
 }
