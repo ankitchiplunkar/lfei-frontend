@@ -17,7 +17,7 @@ export function TopBar() {
           <HeaderNavLinks>
             <HeaderLink activeClassName="active-page" to="/balance">
               {' '}
-              Dapp{' '}
+              Note: Contracts are unaudited, use at own risk{' '}
             </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>

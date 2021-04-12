@@ -12,8 +12,8 @@ export function App() {
       <BrowserRouter>
         <TopBar />
         <Switch>
-          <Route exact path="/balance" component={Balance} />
-          <Redirect exact from="/" to="/balance" />
+          <Route exact path="/lfei" component={Balance} />
+          <Redirect exact from="/" to="/lfei" />
         </Switch>
       </BrowserRouter>
     </Page>

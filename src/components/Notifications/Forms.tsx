@@ -70,10 +70,15 @@ export const WithdrawFei = ({ poolAddress, account, library }: InteractFeiProps)
   const contract = new Contract(poolAddress, lFeiInterface, library.getSigner())
   const { send } = useContractFunction(contract, 'withdrawFei')
   const [value, setValue] = useState('0')
-  const tokenBalance = useTokenBalance(poolAddress, account)
+  const [withdrawableFei] = useContractCall({
+    abi: lFeiInterface,
+    address: poolAddress,
+    method: "withdrawableFei",
+    args: [account]
+  }) ?? []
   return (
     <SectionRow>
-      {tokenBalance && <label>Withdraw Fei from Pool (can withdraw {formatEther(tokenBalance)})</label>}
+      {withdrawableFei && <label>Withdraw Fei from Pool (can withdraw {formatEther(withdrawableFei)})</label>}
       <Input type="number" step="1" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
       <SmallButton
         onClick={(e) => {
@@ -91,9 +96,16 @@ export const WithdrawUSDC = ({ poolAddress, account, library }: InteractFeiProps
   const contract = new Contract(poolAddress, lFeiInterface, library.getSigner())
   const { send } = useContractFunction(contract, 'withdrawUSDC')
   const [value, setValue] = useState('0')
+  const [withdrawableUSDC] = useContractCall({
+    abi: lFeiInterface,
+    address: poolAddress,
+    method: "withdrawableUSDC",
+    args: [account]
+  }) ?? []
+  
   return (
     <SectionRow>
-      <label>Withdraw USDC from Pool</label>
+      {withdrawableUSDC && <label>Withdraw USDC from Pool (can withdraw {formatEther(withdrawableUSDC)})</label>}
       <Input type="number" step="1" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
       <SmallButton
         onClick={(e) => {

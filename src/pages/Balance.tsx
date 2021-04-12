@@ -7,13 +7,20 @@ import { Button } from '../components/base/Button'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
 import { Title } from '../typography/Title'
-import { feiAddress, usdcAddress } from '../components/Constants'
+import { feiAddress, usdcAddress, addressList } from '../components/Constants'
 
 export function Balance() {
   const { activateBrowserWallet, deactivate, account } = useEthers()
   const userBalance = useEtherBalance(account)
   const feiBalance = useTokenBalance(feiAddress, account)
   const usdcBalance = useTokenBalance(usdcAddress, account)
+  const lFei1Balance = useTokenBalance(addressList["1"], account)
+  const lFei95Balance = useTokenBalance(addressList["0.95"], account)
+  const lFei09Balance = useTokenBalance(addressList["0.9"], account)
+  const lFei85Balance = useTokenBalance(addressList["0.85"], account)
+  const lFei08Balance = useTokenBalance(addressList["0.8"], account)
+  const lFei75Balance = useTokenBalance(addressList["0.75"], account)
+
 
   return (
     <MainContent>
@@ -46,6 +53,36 @@ export function Balance() {
             {usdcBalance && (
               <ContentRow>
                 <Label>USDC balance:</Label> <TextInline>{formatEther(usdcBalance)}</TextInline> <Label>USDC</Label>
+              </ContentRow>
+            )}
+            {lFei1Balance && (
+              <ContentRow>
+                <Label>Fei balance (in pool 1):</Label> <TextInline>{formatEther(lFei1Balance)}</TextInline> <Label>Fei</Label>
+              </ContentRow>
+            )}
+            {lFei95Balance && (
+              <ContentRow>
+                <Label>Fei balance (in pool 0.95):</Label> <TextInline>{formatEther(lFei95Balance)}</TextInline> <Label>Fei</Label>
+              </ContentRow>
+            )}
+            {lFei09Balance && (
+              <ContentRow>
+                <Label>Fei balance (in pool 0.9):</Label> <TextInline>{formatEther(lFei09Balance)}</TextInline> <Label>Fei</Label>
+              </ContentRow>
+            )}
+            {lFei85Balance && (
+              <ContentRow>
+                <Label>Fei balance (in pool 0.85):</Label> <TextInline>{formatEther(lFei85Balance)}</TextInline> <Label>Fei</Label>
+              </ContentRow>
+            )}
+            {lFei08Balance && (
+              <ContentRow>
+                <Label>Fei balance (in pool 0.8):</Label> <TextInline>{formatEther(lFei08Balance)}</TextInline> <Label>Fei</Label>
+              </ContentRow>
+            )}
+            {lFei75Balance && (
+              <ContentRow>
+                <Label>Fei balance (in pool 0.75):</Label> <TextInline>{formatEther(lFei75Balance)}</TextInline> <Label>Fei</Label>
               </ContentRow>
             )}
           </ContentBlock>
