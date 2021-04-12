@@ -34,6 +34,7 @@ export function Balance() {
                 <Button onClick={() => activateBrowserWallet()}>Connect</Button>
               )}
           </SectionRow>
+          <Label>CONTRACTS ARE ONLY DEPLOYED ON ROPSTEN</Label>
           <ContentBlock>
             {account && (
               <ContentRow>
