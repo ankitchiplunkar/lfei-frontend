@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { formatEther } from '@ethersproject/units'
+import { formatEther, formatUnits } from '@ethersproject/units'
 import { Label } from '../../typography/Label'
 import styled from 'styled-components'
 import { Text, TextBold } from '../../typography/Text'
@@ -7,7 +7,6 @@ import { SectionRow, ContentRow, ContentBlock } from './base'
 import {addressList, feiAddress, usdcAddress } from '../Constants'
 import { useEthers, useTokenBalance } from '@usedapp/core'
 import { ApproveFei, DepositFei, WithdrawFei, WithdrawUSDC } from '../Notifications/Forms'
-
 
 export const Slider = () => {
     const { account, library } = useEthers()
@@ -57,7 +56,7 @@ export const Slider = () => {
                         <Text>Pool address: {address}</Text>
                         <Text>Pool conversion rate: 1 Fei : {value} USDC</Text>
                         {feiPoolBalance && (<Text>Pool Fei balance: {formatEther(feiPoolBalance)}</Text>)}
-                        {usdcPoolBalance && (<Text>Pool USDC balance: {formatEther(usdcPoolBalance)}</Text>)}
+                        {usdcPoolBalance && (<Text>Pool USDC balance: {formatUnits(usdcPoolBalance, 6)}</Text>)}
                     </ContentRow>
                 </ContentBlock>
             </SectionRow>

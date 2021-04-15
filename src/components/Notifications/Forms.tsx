@@ -1,7 +1,7 @@
 import type { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import type { Web3Provider } from '@ethersproject/providers'
-import { formatEther } from '@ethersproject/units'
+import { formatEther, formatUnits } from '@ethersproject/units'
 import { useContractCall, useContractFunction, useTokenAllowance } from '@usedapp/core'
 import { utils } from 'ethers'
 import { useState } from 'react'
@@ -105,11 +105,11 @@ export const WithdrawUSDC = ({ poolAddress, account, library }: InteractFeiProps
   
   return (
     <SectionRow>
-      {withdrawableUSDC && <label>Withdraw USDC from Pool (can withdraw {formatEther(withdrawableUSDC)})</label>}
+      {withdrawableUSDC && <label>Withdraw USDC from Pool (can withdraw {formatUnits(withdrawableUSDC, 6)})</label>}
       <Input type="number" step="1" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
       <SmallButton
         onClick={(e) => {
-          send(utils.parseEther(value))
+          send(utils.parseUnits(value, 6))
           setValue('0')
         }}
       >

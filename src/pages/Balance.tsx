@@ -1,4 +1,4 @@
-import { formatEther } from '@ethersproject/units'
+import { formatEther, formatUnits } from '@ethersproject/units'
 import { useEtherBalance, useEthers, useTokenBalance } from '@usedapp/core'
 import styled from 'styled-components'
 import { Slider } from '../components/base/Actions'
@@ -53,7 +53,7 @@ export function Balance() {
             )}
             {usdcBalance && (
               <ContentRow>
-                <Label>USDC balance:</Label> <TextInline>{formatEther(usdcBalance)}</TextInline> <Label>USDC</Label>
+                <Label>USDC balance:</Label> <TextInline>{formatUnits(usdcBalance, 6)}</TextInline> <Label>USDC</Label>
               </ContentRow>
             )}
             {lFei1Balance && (
