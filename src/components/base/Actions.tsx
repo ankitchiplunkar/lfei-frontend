@@ -37,18 +37,13 @@ export const Slider = () => {
                                 usdcPoolBalance = useTokenBalance(usdcAddress, account)
                             }}
                             type={"range"}
-                            min={0.75}
+                            min={0.9}
                             defaultValue={0.9}
-                            max={1.00}
+                            max={0.9}
                             step={0.05}
                             list={"tick-list"} />
                         <datalist id="tick-list">
-                            <option>0.75</option>
-                            <option>0.8</option>
-                            <option>0.85</option>
                             <option>0.9</option>
-                            <option>0.95</option>
-                            <option>1</option>
                         </datalist>
                         <span id="output">{value}</span>
                     </ContentRow>
