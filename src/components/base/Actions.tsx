@@ -39,11 +39,12 @@ export const Slider = () => {
                             type={"range"}
                             min={0.9}
                             defaultValue={0.9}
-                            max={0.9}
-                            step={0.05}
+                            max={1.0}
+                            step={0.1}
                             list={"tick-list"} />
                         <datalist id="tick-list">
                             <option>0.9</option>
+                            <option>1.0</option>
                         </datalist>
                         <span id="output">{value}</span>
                     </ContentRow>
